@@ -51,11 +51,12 @@ def get_openai_client() -> Optional[AsyncOpenAI]:
 
     return _openai_client
 
-def create_extraction_prompt(html_content: str, url: str) -> str:
-    """Creates a detailed prompt for the LLM to extract product data.
+# Updated to accept markdown_content and refer to Markdown in the prompt
+def create_extraction_prompt(markdown_content: str, url: str) -> str:
+    """Creates a detailed prompt for the LLM to extract product data from MARKDOWN.
 
     Args:
-        html_content: The cleaned HTML content of the product page.
+        markdown_content: The Markdown content generated from the product page.
         url: The URL of the product page (for context and the 'url' field).
 
     Returns:
@@ -78,18 +79,18 @@ def create_extraction_prompt(html_content: str, url: str) -> str:
 """
 
     prompt = f"""
-You are an expert data extraction AI. Your task is to extract information about a Sephora product from the provided HTML content.
+You are an expert data extraction AI. Your task is to extract information about a product from the provided MARKDOWN content.
 
 The URL of the page is: {url}
 
-Please analyze the following cleaned HTML content carefully:
-```html
-{html_content}
+Please analyze the following Markdown content carefully:
+```markdown
+{markdown_content}
 ```
 
 Extract the required information and format it STRICTLY as a JSON object matching the schema below.
 - Provide the exact URL given above in the "url" field.
-- For optional fields (price, currency, stock_info, image_url, description, ingredients_list, how_to_use), use `null` if the information cannot be found in the HTML content. Do NOT guess or make up information.
+- For optional fields (price, currency, stock_info, image_url, description, ingredients_list, how_to_use), use `null` if the information cannot be found in the Markdown content. Do NOT guess or make up information.
 - It is CRUCIAL to extract the *entire* ingredient list if present under "ingredients_list". Do not truncate or summarize.
 - Similarly, extract the *complete* "how_to_use" instructions if available.
 - Ensure the output is ONLY the JSON object, with no introductory text, explanations, or markdown formatting around it.
