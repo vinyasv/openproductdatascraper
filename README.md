@@ -38,9 +38,9 @@ Finally, it generates embeddings for the extracted text using an OpenAI embeddin
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repository-url>
-    cd <repository-directory>
+    git clone https://github.com/vinyasv/openproductdatascraper.git
     ```
+    (You will likely be inside the `openproductdatascraper` directory after cloning)
 
 2.  **Create Virtual Environment:**
     ```bash
